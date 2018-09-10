@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Rx from 'rxjs/Rx';
+import { of, from, fromEvent } from 'rxjs';
+import { take, map } from 'rxjs/operators';
+import { Button } from 'antd';
 
-Rx.Observable.of(1,2,3)
 
 class App extends Component {
+  constructor (props){
+    super(props);
+    this.textInput = React.createRef();
+  }
+
+  componentDidMount (){
+    const ob1 = of('foo', 'bar');
+    const ob2 = from([1, 2, 3]);
+    const ob3 = fromEvent(document.querySelector('button'), 'click');
+    const ob = ob2.pipe(take(2)).pipe(map(v => v * 2));
+
+    ob3.subscribe(v => console.log(v))
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <Button>click</Button>
       </div>
     );
   }
