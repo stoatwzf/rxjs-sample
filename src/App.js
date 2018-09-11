@@ -16,6 +16,8 @@ import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Button, Input } from 'antd';
 
+// import List from './components/List';
+
 const exists = (file, cb) => {
   cb(file + '.js');
 };
@@ -46,10 +48,19 @@ class App extends Component {
       count: 0,
       inputValue: ''
     });
+    let prevState;
 
     obState.subscribe(({ count, inputValue}) => {
-      document.querySelector('#count').innerHTML = count;
-      document.querySelector('#user').innerHTML = `Hello ${inputValue}`;
+      if (prevState.count !== count){
+        document.querySelector('#count').innerHTML = count;
+      }
+      if (prevState.inputValue !== inputValue){
+        document.querySelector('#user').innerHTML = `Hello ${inputValue}`;
+      }
+      prevState = {
+        count,
+        inputValue
+      };
     });
 
     /*ob2
